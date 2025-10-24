@@ -5,6 +5,7 @@ import {
 } from '@angular/forms';
 import { AppComponent } from '../app.component';
 import { Router } from '@angular/router';
+import { AuthService } from '../shared/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent {
 
   constructor(
     private builder: FormBuilder,
-    private app: AppComponent,
+    private authService: AuthService,    
     private router: Router
   ) {}
 
@@ -32,7 +33,7 @@ export class LoginComponent {
     const pass = this.loginForm.value.pass;
 
     if (user === 'admin' && pass === 'admin') {
-      this.app.isLogedIn = true;
+      this.authService.loginSuccess();
       localStorage.setItem('isLogedIn', 'true');
       this.router.navigate(['emp']);
     }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { RouterOutlet, RouterLink, Router } from '@angular/router';
+import { AuthService } from './shared/auth.service';
 
 
 @Component({
@@ -14,7 +15,21 @@ import { RouterOutlet, RouterLink } from '@angular/router';
 })
 export class AppComponent {
   isLogedIn = false;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
   ngOnInit() {
-    this.isLogedIn = localStorage.getItem('isLogedIn') === 'true';
+    this.authService.isLoggedIn$.subscribe(res => {
+      this.isLogedIn = res;
+    })
   }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['login']);
+  }
+
 }
